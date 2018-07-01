@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  
+  <body>
+    <!-- div contains ng-app and container class -->
+    <div class="container" ng-app="myContactList" ng-cloak ng-controller="contactCtrl">
+      <div class="brdr">
+        <div class="row">
+          <div class="col-md-12 borderStyle">
+            <h4>Contact Management Portal</h4>
+          </div>
+        </div>
+        <!-- row contains two column one to show contact details and other for contact form-->
+        <div class="row">
+            <!-- div to the the contact lists after add-->
+            <div class="col-md-5">
+              <div class="ShowList">
+                <h3>Contact List</h3>
+                <ul class="">
+                  <li ng-repeat="x in products track by $index" class="clearfix"><a href="#" ng-click = "showDetails(x)">{{x.fName}} {{x.lName}}</a>
+                    <div class="pull-right ">
+                      <button  ng-hide="editorEnabled" class="btn btn-primary" ng-click="enableEdit($index)">
+                          <span class="glyphicon glyphicon-pencil"></span><span> Edit</span>
+                      </button>
+                      <button ng-hide="editorEnabled" class="btn btn-danger" ng-click="removeItem($index)">
+                        <span class="glyphicon glyphicon-remove"></span><span> Delete</span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- div to the the contact lists after add ends here-->
+
+            <!-- div to show the contacts form to add contacts -->
+            <div class="col-md-7">
+              <div class="showPage">
+                <form name="ContactForm">
+                  <div class="form-group">
+                    
+                    <label for="fName"> First Name: </label>
+                    <input type="text" name="firstName" id="fName" class="form-control" placeholder="Please Enter Your Name Here" ng-model="details.fName" ng-required="true">
+                    <h5 ng-if="ContactForm.firstName.$dirty && !ContactForm.firstName.$valid" class="InvalidField">Required Field!!!</h5>
+                    
+                    <label for="lName"> Last Name: </label>
+                    <input type="text" name="lastname" id= "lName" class="form-control" placeholder="Please Enter your last name" ng-model="details.lName">
+                    <label for="email"> Email: </label>
+                    <input type="email" name="email" id= "email" class="form-control" placeholder="Please Enter your email" ng-model="details.email"/>
+                    <h5 ng-if="ContactForm.email.$dirty && !ContactForm.email.$valid" class="InvalidField"> Invalid Email entered!!!
+                    </h5>
+                    
+                    <label for="phone"> Phone Number: </label>
+                    <input type="number" ng-minlength="10" ng-maxlength="10" ng-required="true" name="phone" id= "phone" class="form-control" placeholder="Please Enter your phone number" ng-model="details.phone"/>
+                    <h5 ng-if="ContactForm.phone.$dirty && !ContactForm.phone.$valid" class="InvalidField">Please enter your phone number !!!</h5>
+                    
+                    <label class="statusClass" for="status"> Status: </label>
+                    <select name="status" ng-model = "details.status">
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                    
+                    <button ng-hide="editorEnabled" type="button" class="btn btn-primary saveButton" ng-click="addItem()" ng-disabled="ContactForm.$invalid">Add</button>
+                    <button ng-show ="editorEnabled" class="btn btn-primary saveButton" ng-click="saveContact($index)">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        <span> Save Edits</span>
+                    </button>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- div to show the contacts form to add contacts ends here-->
+        </div>
+        <!-- row contains two column one to show contact details and other for contact form-->
+      </div>
+      <div ng-show = "showContactDetails">
+        <div class="Caption">{{fullName}}</div>
+        <div><label>Email:</label> <a href="mailto:{{selectedEmail}}">{{selectedEmail}}</a></div>
+        <div><label>Contact: </label><span> {{selectedPhone}}</span> </div>
+        <div><label>Status: </label>{{selectedStatus}}</div>
+      </div>
+    </div>
+    <!-- ng-app and Container ends here -->
+  </body>
+</html>
